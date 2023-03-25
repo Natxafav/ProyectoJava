@@ -2,7 +2,6 @@ package Controler.com.company;
 
 import Connecion.ConectionBD;
 import model.com.company.ModelAsignaturas;
-import model.com.company.ModelPersonas;
 import view.com.company.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -70,18 +69,10 @@ public class ControllerAsignaturas implements ActionListener, WindowListener, Mo
                 dialogo.setLocation(5, 5);
                 dialogo.setTitle("Añadir nuevo registro.");
                 dialogo.setVisible(true);
-                m=new DefaultTableModel();
-                modeloAsig=new ModelAsignaturas();
-
-                frAsignaturas.getTable1().setModel(modeloAsig.CargaDatos(m));
-
-
-
-
-
-
+                prepararBaseDatosAsignaturas();
             } else if (e.getSource() == frAsignaturas.getBtnModify()) {
                 System.out.println("Es el boton modificar");
+
             } else if (e.getSource() == frAsignaturas.getBtnEliminar()) {
                 // código para el botón Eliminar
                 System.out.println("Este es el mboton eliminar");

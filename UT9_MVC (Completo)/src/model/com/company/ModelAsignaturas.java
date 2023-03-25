@@ -6,9 +6,11 @@ import view.com.company.ViewAsignaturas;
 import view.com.company.dialogAdd;
 
 import javax.swing.table.DefaultTableModel;
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class ModelAsignaturas {
  private Statement stmt;
@@ -50,6 +52,7 @@ public class ModelAsignaturas {
 
         }
     }
+
 /*
     public void modificarAsignatura(int id, String nombre, int creditos, String tipo, int curso, int cuatrimestre, int id_profesor, int id_grado) {
         try {
