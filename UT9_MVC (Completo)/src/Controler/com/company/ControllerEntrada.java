@@ -1,7 +1,6 @@
 package Controler.com.company;
 
 import Connecion.ConectionBD;
-import model.com.company.ModelAsignaturas;
 import model.com.company.ModelPersonas;
 import view.com.company.*;
 import javax.swing.*;
@@ -15,16 +14,13 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
     private final DefaultTableModel m = null;
     // Constructor lanza cada uno de los procedimientos de la aplicación.
     public ControllerEntrada() {
-        System.out.println("ControllerEntrada Constructor");
         iniciarVentana();
         iniciarEventos();
     }
     public void iniciarVentana() {
-        System.out.println("frEntrada.setVisible(true); en controlador de entrada");
-        frEntrada.setVisible(true);
+         frEntrada.setVisible(true);
     }
     public void iniciarEventos() {
-        System.out.println("Dentro de iniciarEventos en ControllerEntrada");
         frEntrada.getBtnSalir().addActionListener(this::actionPerformed);
         frEntrada.getAsignaturasButton().addActionListener(this::actionPerformed);
         frEntrada.getPersonasButton().addActionListener(this::actionPerformed);
@@ -32,21 +28,20 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        //Según el botón pulsado, realiza una acción.
         String entrada = e.getActionCommand();
         switch (entrada) {
             case "Salir":
-                System.out.println("Ha salido del programa con el boton salir del controllerEntrada");
+                System.out.println("Ha salido del programa.");
                 System.exit(0);
                 break;
 
             case "Asignaturas":
                 ControllerAsignaturas contrAsig = new ControllerAsignaturas();
-                System.out.println("contrAsig.mostrarVistaAsignaturas(); en ActLIst de ContrEntr");
                 frEntrada.dispose();
                 break;
 
             case "Personas":
-                System.out.println("controlador entrada al pulsar personas");
                 frPersonas.setVisible(true);
                 ModelPersonas persona = new ModelPersonas();
                 frPersonas.getTable1().setModel(persona.CargaDatos(m));

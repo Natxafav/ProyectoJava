@@ -1,12 +1,7 @@
 package view.com.company;
 
-
-
-import model.com.company.ModelAsignaturas;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 
 public class ViewAsignaturas extends JFrame{
     private JPanel jPanelAsignaturas;
@@ -23,7 +18,7 @@ public class ViewAsignaturas extends JFrame{
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
         int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
         setSize(ancho, alto);
-        System.out.println("La vista asignaturas se está cargando");
+
 
     }
 
@@ -45,30 +40,30 @@ public class ViewAsignaturas extends JFrame{
     public void setjPanelAsignaturas(JPanel jPanelAsignaturas) {   this.jPanelAsignaturas = jPanelAsignaturas;   }
 
     public JButton getBtnAdd() {
-        System.out.println("Estoy en el getter del boton añadir");return btnAdd;
+       return btnAdd;
     }
 
    // public void setBtnAdd(JButton btnAdd) {        this.btnAdd = btnAdd;    }
     public JButton getBtnVolver() {
-        System.out.println("Estoy dentro del getter del btnVolver");return btnVolver;
+       return btnVolver;
     }
 
    // public void setBtnVolver(JButton btnVolver) {      this.btnVolver = btnVolver;    }
     public JButton getBtnModify() {
-        System.out.println("Estoy dentro del getter del btnModify");return btnModify;
+       return btnModify;
     }
 
    // public void setBtnModify(JButton btnModify) {   this.btnModify = btnModify; }
 
     public JButton getBtnEliminar() {
-        System.out.println("Estoy dentro del getter del btnEliminar");
+
         return btnEliminar;
     }
 
    // public void setBtnEliminar(JButton btnEliminar) {    this.btnEliminar = btnEliminar; }
 
     public JButton getBtnPersonas() {
-        System.out.println("Estoy dentro del getter del btnPersonas");return btnPersonas;
+     return btnPersonas;
     }
 
    // public void setBtnPersonas(JButton btnPersonas) {     this.btnPersonas = btnPersonas;    }
