@@ -1,23 +1,29 @@
 package view.com.company;
 
+import Connecion.ConectionBD;
 import model.com.company.ModelAsignaturas;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class dialogAdd extends JDialog {
+    private Statement stmt;
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JPanel jPanelTexto;
-    private JLabel lblNombre;
-    private JTextField txtNombre;
+       private JTextField txtNombre;
     private JTextField txtCreditos;
-    private JTextField txtTipo;
+
     private JTextField txtCurso;
     private JTextField txtCuatrimestre;
     private JTextField txtIdProfesor;
     private JTextField txtIdGrado;
+    private JPanel jPanelTexto;
+    private JLabel lblNombre;
     private JLabel lblCreditos;
     private JLabel lblTipo;
     private JLabel lblCurso;
@@ -25,6 +31,7 @@ public class dialogAdd extends JDialog {
     private JLabel lblId_Profesor;
     private JLabel lblID_Grado;
     private JLabel lblAsignaturas;
+    private JComboBox comboBox1;
     private String nombre, creditosSt, tipo, cursoSt, cuatrimestreSt, id_profesorSt, id_gradoSt;
     private int creditos;
     private int curso;
@@ -33,6 +40,24 @@ public class dialogAdd extends JDialog {
     private int id_grado;
     public dialogAdd() {
         System.out.println("Se genera el dialogo");
+        ArrayList<String> tiposAsignaturas = new ArrayList<>();
+        try {
+            ConectionBD.openConn();
+            stmt = ConectionBD.getStmt();
+            String query = "SELECT DISTINCT tipo FROM asignatura";
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String tipo = rs.getString("tipo");
+                tiposAsignaturas.add(tipo);
+                System.out.println(tipo);
+            }
+            for (String tipo : tiposAsignaturas) {
+                comboBox1.addItem(tipo);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener los tipos de asignaturas: " + e.getMessage());
+        }
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -63,12 +88,14 @@ public class dialogAdd extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+
     }
 
     private void onOK() {
         nombre=txtNombre.getText();
         creditosSt=txtCreditos.getText();
-        tipo=txtTipo.getText();
+        tipo= (String) comboBox1.getSelectedItem();
         cursoSt=txtCurso.getText();
         cuatrimestreSt=txtCuatrimestre.getText();
         id_profesorSt=txtIdProfesor.getText();
@@ -94,9 +121,9 @@ public class dialogAdd extends JDialog {
        id_gradoSt="";
        dispose();
     }
-
-
-
+    public JComboBox getComboBox1() {
+        return comboBox1;
+    }
     public String getNombre() {
         return nombre;
     }
