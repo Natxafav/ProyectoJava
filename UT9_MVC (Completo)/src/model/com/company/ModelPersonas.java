@@ -1,20 +1,15 @@
 package model.com.company;
 
 import Connecion.ConectionBD;
-
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 public class ModelPersonas {
-
     private Statement stmt;
-
     public ModelPersonas() {
         ConectionBD.openConn();
     }
-
     public DefaultTableModel CargaDatos(DefaultTableModel m) {
         String[] titulos = {"NIF", "Nombre", "Apellido1", "Apellido2", "Ciudad", "Dirección", "Teléfono", "Fecha Nacimiento", "Sexo", "Tipo"};
         m = new DefaultTableModel(null, titulos);
@@ -42,6 +37,4 @@ public class ModelPersonas {
         }
         return m;
     }
-
-
 }

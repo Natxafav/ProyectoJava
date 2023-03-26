@@ -1,21 +1,16 @@
 package model.com.company;
 
 import Connecion.ConectionBD;
-import Controler.com.company.ControllerAsignaturas;
 import view.com.company.ViewAsignaturas;
-import view.com.company.dialogAdd;
-
 import javax.swing.table.DefaultTableModel;
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 public class ModelAsignaturas {
  private Statement stmt;
-
     public DefaultTableModel CargaDatos(DefaultTableModel m) {
+        //Eliminamos los datos de la tabla antes de cargarlos.
         m.setRowCount(0);
         String[] titulos = {"ID", "Nombre", "Créditos", "Tipo", "Curso", "Cuatrimestre", "Id Profesor", "Id Grado"};
         m = new DefaultTableModel(null,titulos);
@@ -46,14 +41,11 @@ public class ModelAsignaturas {
             String query = "INSERT INTO asignatura (nombre, creditos, tipo, curso, cuatrimestre, id_profesor, id_grado) VALUES ('" + nombre + "', " + creditos + ", '" + tipo + "', " + curso + ", " + cuatrimestre + ", " + id_profesor + ", " + id_grado + ")";
             stmt.executeUpdate(query);
             stmt.close();
-
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
     }
-
-/*
     public void modificarAsignatura(int id, String nombre, int creditos, String tipo, int curso, int cuatrimestre, int id_profesor, int id_grado) {
         try {
             ModelAsignaturas modelAsignaturas = new ModelAsignaturas();
@@ -64,12 +56,11 @@ public class ModelAsignaturas {
             stmt.executeUpdate(query);
             CargaDatos(m);
             stmt.close();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
+/*
     public void eliminarAsignatura(int id) {
         try {
             ModelAsignaturas modelAsignaturas = new ModelAsignaturas();

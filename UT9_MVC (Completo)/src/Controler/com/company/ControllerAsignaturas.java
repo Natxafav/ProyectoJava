@@ -10,22 +10,15 @@ import java.awt.event.*;
 
 public class ControllerAsignaturas implements ActionListener, WindowListener, MouseListener {
     private final ViewAsignaturas frAsignaturas=new ViewAsignaturas();
-    private final ViewPersonas frPersonas=new ViewPersonas();
     private  ModelAsignaturas modeloAsig;
     private dialogAdd dialogo;
     private DefaultTableModel m = null;
 
     public ControllerAsignaturas(){
-        System.out.println("Controlador Asignaturas en el inicio controlador de asignaturas");
         try{
-            System.out.println("Controlador Asignaturas en el inicio controlador de asignaturas dentro del try");
             iniciarVentanaAsignaturas();
             prepararBaseDatosAsignaturas();
-            System.out.println("despues de prepBaseDatos en el controllerAsig");
             iniciarEventosAsignaturas();
-            System.out.println("despues de inicEvenAs en el controllerAsig");
-
-
         }catch(Exception e){
             e.printStackTrace();
             System.out.println(e.getMessage());
@@ -33,12 +26,10 @@ public class ControllerAsignaturas implements ActionListener, WindowListener, Mo
 
     }
     public void iniciarVentanaAsignaturas() {
-        System.out.println("Dentro del programa iniciarVentanaAsignaturas");
-        frAsignaturas.setVisible(true);
+              frAsignaturas.setVisible(true);
 
     }
     public void iniciarEventosAsignaturas() {
-        System.out.println("Dentro del metodo iniciarEventos");
         frAsignaturas.getBtnAdd().setActionCommand("AddAccion");
         frAsignaturas.getBtnAdd().addActionListener(this::actionPerformed);
         frAsignaturas.getBtnModify().addActionListener(this::actionPerformed);
@@ -49,18 +40,14 @@ public class ControllerAsignaturas implements ActionListener, WindowListener, Mo
         frAsignaturas.getTable1().addMouseListener(this);
         frAsignaturas.addWindowListener(this);
 
-
     }
     public void prepararBaseDatosAsignaturas() {
-        System.out.println("dentro del método preparar base de datos");
         m=new DefaultTableModel();
         modeloAsig=new ModelAsignaturas();
         frAsignaturas.getTable1().setModel(modeloAsig.CargaDatos(m));
     }
 
-
     public void actionPerformed(ActionEvent e) {
-        System.out.println("actPErf del controllerAsignat 1º linea");
             if (e.getSource() == frAsignaturas.getBtnAdd()) {
                 dialogo=new dialogAdd();
                 int ancho = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -85,23 +72,14 @@ public class ControllerAsignaturas implements ActionListener, WindowListener, Mo
                 ControllerEntrada controlador=new ControllerEntrada();
             }
         }
-
-public void refrescarDatos(){
-        m=new DefaultTableModel();
-    System.out.println("Entrando en refrescar datos");
-    frAsignaturas.setTableModel(m);
-    modeloAsig.CargaDatos(m);
-}
-
-
-    @Override
+        @Override
     public void windowOpened(WindowEvent e) {
 
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
-        System.out.println("Ha salido del programa exit wlistener controllerAsignaturas");
+        System.out.println("Ha salido del programa.");
         frAsignaturas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ConectionBD.closeConn();
     }

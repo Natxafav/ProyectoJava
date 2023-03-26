@@ -2,7 +2,6 @@ package view.com.company;
 
 import Connecion.ConectionBD;
 import model.com.company.ModelAsignaturas;
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.ResultSet;
@@ -12,34 +11,16 @@ import java.util.ArrayList;
 
 public class dialogAdd extends JDialog {
     private Statement stmt;
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
-       private JTextField txtNombre;
-    private JTextField txtCreditos;
-
-    private JTextField txtCurso;
-    private JTextField txtCuatrimestre;
-    private JTextField txtIdProfesor;
-    private JTextField txtIdGrado;
-    private JPanel jPanelTexto;
-    private JLabel lblNombre;
-    private JLabel lblCreditos;
-    private JLabel lblTipo;
-    private JLabel lblCurso;
-    private JLabel lblCuatrimestre;
-    private JLabel lblId_Profesor;
-    private JLabel lblID_Grado;
-    private JLabel lblAsignaturas;
+    private JPanel contentPane, jPanelTexto;
+    private JButton buttonOK, buttonCancel;
+    private JTextField txtNombre, txtCreditos, txtCurso,txtCuatrimestre,txtIdProfesor,txtIdGrado;
+    private JLabel lblAsignaturas,lblID_Grado,lblId_Profesor, lblCuatrimestre,lblCurso, lblTipo, lblCreditos, lblNombre;
     private JComboBox comboBox1;
     private String nombre, creditosSt, tipo, cursoSt, cuatrimestreSt, id_profesorSt, id_gradoSt;
-    private int creditos;
-    private int curso;
-    private int cuatrimestre;
-    private int id_profesor;
-    private int id_grado;
+    private int cuatrimestre,creditos,curso,id_profesor,id_grado;
+
     public dialogAdd() {
-        System.out.println("Se genera el dialogo");
+
         ArrayList<String> tiposAsignaturas = new ArrayList<>();
         try {
             ConectionBD.openConn();
