@@ -9,12 +9,14 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class ControllerAsignaturas implements ActionListener, WindowListener, MouseListener {
-    private final ViewAsignaturas frAsignaturas=new ViewAsignaturas();
-    private  ModelAsignaturas modeloAsig;
+    private ViewAsignaturas frAsignaturas=new ViewAsignaturas();
+    private  ModelAsignaturas modelAsig;
     private dialogAdd dialogo;
     private DefaultTableModel m = null;
 
-    public ControllerAsignaturas(){
+    public ControllerAsignaturas(ModelAsignaturas modelAsig, ViewAsignaturas frAsignaturas){
+        this.modelAsig=modelAsig;
+        this.frAsignaturas=frAsignaturas;
         try{
             iniciarVentanaAsignaturas();
             prepararBaseDatosAsignaturas();
@@ -26,6 +28,7 @@ public class ControllerAsignaturas implements ActionListener, WindowListener, Mo
 
     }
     public void iniciarVentanaAsignaturas() {
+        frAsignaturas=new ViewAsignaturas();
               frAsignaturas.setVisible(true);
 
     }
@@ -43,13 +46,55 @@ public class ControllerAsignaturas implements ActionListener, WindowListener, Mo
     }
     public void prepararBaseDatosAsignaturas() {
         m=new DefaultTableModel();
-        modeloAsig=new ModelAsignaturas();
-        frAsignaturas.getTable1().setModel(modeloAsig.CargaDatos(m));
+        modelAsig=new ModelAsignaturas();
+        frAsignaturas.getTable1().setModel(modelAsig.CargaDatos(m));
+    }
+
+    public void mostrarDatosDialogo() {
+        int filaSeleccionada = frAsignaturas.getTable1().getSelectedRow();
+        String nombre = null;
+        String creditos = null;
+        int id =-1;
+        String tipo = null;
+        String curso = null;
+        String cuatrimestre = null;
+        String id_profesor = null;
+        String id_grado = null;
+        if (filaSeleccionada < 0) {
+            JOptionPane.showMessageDialog(null, "Debes seleccionar una fila antes.");
+            return;
+        } else {
+            id = Integer.parseInt((String) frAsignaturas.getTable1().getValueAt(filaSeleccionada, 0));
+            dialogo=new dialogAdd(false,id);
+            int ancho = Toolkit.getDefaultToolkit().getScreenSize().width;
+            int alto = Toolkit.getDefaultToolkit().getScreenSize().height;
+            dialogo.setSize(ancho, alto);
+            dialogo.setLocation(5, 5);
+            dialogo.setTitle("Modificar registro.");
+            nombre = (String) frAsignaturas.getTable1().getValueAt(filaSeleccionada, 1);
+            creditos = (String) frAsignaturas.getTable1().getValueAt(filaSeleccionada, 2);
+            tipo = (String) frAsignaturas.getTable1().getValueAt(filaSeleccionada, 3);
+            curso = (String) frAsignaturas.getTable1().getValueAt(filaSeleccionada, 4);
+            cuatrimestre = (String) frAsignaturas.getTable1().getValueAt(filaSeleccionada, 5);
+            id_profesor = (String) frAsignaturas.getTable1().getValueAt(filaSeleccionada, 6);
+            id_grado = (String) frAsignaturas.getTable1().getValueAt(filaSeleccionada, 7);
+            dialogo.getTxtNombre().setText(nombre);
+            dialogo.getTxtCreditos().setText(creditos);
+            dialogo.getComboBox1().setSelectedItem(tipo);
+            dialogo.getTxtCurso().setText(curso);
+            dialogo.getTxtCuatrimestre().setText(cuatrimestre);
+            dialogo.getTxtIdProfesor().setText(id_profesor);
+            dialogo.getTxtIdGrado().setText(id_grado);
+            dialogo.setVisible(true);
+
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
             if (e.getSource() == frAsignaturas.getBtnAdd()) {
-                dialogo=new dialogAdd();
+                //Al pulsar Añadir  abrimos el dialogo, cuando se cierra el mismo,
+                //se actualizan los datos de la tabla.
+                dialogo=new dialogAdd(true,-1);
                 int ancho = Toolkit.getDefaultToolkit().getScreenSize().width;
                 int alto = Toolkit.getDefaultToolkit().getScreenSize().height;
                 dialogo.setSize(ancho, alto);
@@ -58,18 +103,19 @@ public class ControllerAsignaturas implements ActionListener, WindowListener, Mo
                 dialogo.setVisible(true);
                 prepararBaseDatosAsignaturas();
             } else if (e.getSource() == frAsignaturas.getBtnModify()) {
-                System.out.println("Es el boton modificar");
+                mostrarDatosDialogo();
+                prepararBaseDatosAsignaturas();
 
             } else if (e.getSource() == frAsignaturas.getBtnEliminar()) {
                 // código para el botón Eliminar
-                System.out.println("Este es el mboton eliminar");
+
             } else if (e.getSource() == frAsignaturas.getBtnPersonas()) {
                 // código para el botón Personas
-                System.out.println("este es el boton personas");
+
             } else if (e.getSource() == frAsignaturas.getBtnVolver()) {
-                // código para el botón Volver
+                // código para el botón Volver, retorna a la vista de entrada.
                 frAsignaturas.dispose();
-                ControllerEntrada controlador=new ControllerEntrada();
+                ControllerEntrada controlador=new ControllerEntrada(modelAsig,frAsignaturas);
             }
         }
         @Override

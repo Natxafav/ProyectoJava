@@ -18,9 +18,11 @@ public class dialogAdd extends JDialog {
     private JComboBox comboBox1;
     private String nombre, creditosSt, tipo, cursoSt, cuatrimestreSt, id_profesorSt, id_gradoSt;
     private int cuatrimestre,creditos,curso,id_profesor,id_grado;
-
-    public dialogAdd() {
-
+    private boolean isAdd=true;
+    private int id=-1;
+    public dialogAdd(boolean isAdd, int id) {
+        this.id=id;
+        this.isAdd=isAdd;
         ArrayList<String> tiposAsignaturas = new ArrayList<>();
         try {
             ConectionBD.openConn();
@@ -74,6 +76,8 @@ public class dialogAdd extends JDialog {
     }
 
     private void onOK() {
+        ModelAsignaturas modelo=new ModelAsignaturas();
+
         nombre=txtNombre.getText();
         creditosSt=txtCreditos.getText();
         tipo= (String) comboBox1.getSelectedItem();
@@ -86,8 +90,13 @@ public class dialogAdd extends JDialog {
         cuatrimestre= Integer.parseInt(cuatrimestreSt);
         id_profesor= Integer.parseInt(id_profesorSt);
         id_grado= Integer.parseInt(id_gradoSt);
-        ModelAsignaturas modelo=new ModelAsignaturas();
-        modelo.agregarAsignatura(nombre,creditos,tipo,curso,cuatrimestre,id_profesor,id_grado);
+        if(isAdd==true){
+            modelo.agregarAsignatura(nombre,creditos,tipo,curso,cuatrimestre,id_profesor,id_grado);
+
+        } else if (isAdd==false) {
+            modelo.modificarAsignatura(id,nombre,creditos,tipo,curso,cuatrimestre,id_profesor,id_grado);
+
+        }
         dispose();
     }
 
@@ -148,8 +157,68 @@ public class dialogAdd extends JDialog {
         return id_grado;
     }
 
+    public JTextField getTxtNombre() {
+        return txtNombre;
+    }
+
+    public void setTxtNombre(JTextField txtNombre) {
+        this.txtNombre = txtNombre;
+    }
+
+    public JTextField getTxtCreditos() {
+        return txtCreditos;
+    }
+
+    public void setTxtCreditos(JTextField txtCreditos) {
+        this.txtCreditos = txtCreditos;
+    }
+
+    public JTextField getTxtCurso() {
+        return txtCurso;
+    }
+
+    public void setTxtCurso(JTextField txtCurso) {
+        this.txtCurso = txtCurso;
+    }
+
+    public JTextField getTxtCuatrimestre() {
+        return txtCuatrimestre;
+    }
+
+    public void setTxtCuatrimestre(JTextField txtCuatrimestre) {
+        this.txtCuatrimestre = txtCuatrimestre;
+    }
+
+    public JTextField getTxtIdProfesor() {
+        return txtIdProfesor;
+    }
+
+    public void setTxtIdProfesor(JTextField txtIdProfesor) {
+        this.txtIdProfesor = txtIdProfesor;
+    }
+
+    public JTextField getTxtIdGrado() {
+        return txtIdGrado;
+    }
+
+    public void setTxtIdGrado(JTextField txtIdGrado) {
+        this.txtIdGrado = txtIdGrado;
+    }
+
+    public void setComboBox1(JComboBox comboBox1) {
+        this.comboBox1 = comboBox1;
+    }
+
+    public JLabel getLblTipo() {
+        return lblTipo;
+    }
+
+    public void setLblTipo(JLabel lblTipo) {
+        this.lblTipo = lblTipo;
+    }
+
     public static void main(String[] args) {
-        dialogAdd dialogo = new dialogAdd();
+        dialogAdd dialogo = new dialogAdd(true,-1);
         dialogo.pack();
         dialogo.setVisible(true);
         System.exit(0);

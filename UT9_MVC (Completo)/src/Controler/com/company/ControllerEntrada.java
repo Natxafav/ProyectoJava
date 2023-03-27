@@ -1,6 +1,7 @@
 package Controler.com.company;
 
 import Connecion.ConectionBD;
+import model.com.company.ModelAsignaturas;
 import model.com.company.ModelPersonas;
 import view.com.company.*;
 import javax.swing.*;
@@ -12,8 +13,13 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
     private final ViewPanelEntrada frEntrada = new ViewPanelEntrada();
     private final ViewPersonas frPersonas=new ViewPersonas();
     private final DefaultTableModel m = null;
+    private final ModelAsignaturas modelAsignaturas;
+    private final ViewAsignaturas frAsignaturas;
+
     // Constructor lanza cada uno de los procedimientos de la aplicación.
-    public ControllerEntrada() {
+    public ControllerEntrada(ModelAsignaturas modelAsignaturas, ViewAsignaturas frAsignaturas) {
+        this.modelAsignaturas=modelAsignaturas;
+        this.frAsignaturas=frAsignaturas;
         iniciarVentana();
         iniciarEventos();
     }
@@ -37,7 +43,7 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
                 break;
 
             case "Asignaturas":
-                ControllerAsignaturas contrAsig = new ControllerAsignaturas();
+                ControllerAsignaturas contrAsig = new ControllerAsignaturas(modelAsignaturas, frAsignaturas);
                 frEntrada.dispose();
                 break;
 
@@ -54,7 +60,7 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        System.out.println("Ha salido del programa con exit on close.");
+        System.out.println("Ha salido del programa.");
         frEntrada.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ConectionBD.closeConn();
     }

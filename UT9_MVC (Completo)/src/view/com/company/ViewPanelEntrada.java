@@ -59,5 +59,4 @@ public class ViewPanelEntrada extends JFrame {
         this.personasButton = personasButton;
     }
 
-
 }

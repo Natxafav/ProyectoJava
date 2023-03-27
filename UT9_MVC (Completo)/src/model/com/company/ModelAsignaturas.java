@@ -12,6 +12,7 @@ public class ModelAsignaturas {
     public DefaultTableModel CargaDatos(DefaultTableModel m) {
         //Eliminamos los datos de la tabla antes de cargarlos.
         m.setRowCount(0);
+        //Cargamos los datos en la tabla
         String[] titulos = {"ID", "Nombre", "Créditos", "Tipo", "Curso", "Cuatrimestre", "Id Profesor", "Id Grado"};
         m = new DefaultTableModel(null,titulos);
         try {
@@ -36,6 +37,7 @@ public class ModelAsignaturas {
         return m;
     }
      public void agregarAsignatura(String nombre, int creditos, String tipo, int curso, int cuatrimestre, int id_profesor, int id_grado) {
+        //Añadimos un nuevo registro a la base de datos
         try {
             stmt = ConectionBD.getStmt();
             String query = "INSERT INTO asignatura (nombre, creditos, tipo, curso, cuatrimestre, id_profesor, id_grado) VALUES ('" + nombre + "', " + creditos + ", '" + tipo + "', " + curso + ", " + cuatrimestre + ", " + id_profesor + ", " + id_grado + ")";
@@ -47,14 +49,15 @@ public class ModelAsignaturas {
         }
     }
     public void modificarAsignatura(int id, String nombre, int creditos, String tipo, int curso, int cuatrimestre, int id_profesor, int id_grado) {
+       //Modificamos registros de la base de datos
         try {
             ModelAsignaturas modelAsignaturas = new ModelAsignaturas();
-            ViewAsignaturas vistaAsignaturas = new ViewAsignaturas();
+            ViewAsignaturas frAsignaturas = new ViewAsignaturas();
             DefaultTableModel m=new DefaultTableModel();
             stmt = ConectionBD.getStmt();
             String query = "UPDATE asignatura SET nombre='" + nombre + "', creditos=" + creditos + ", tipo='" + tipo + "', curso=" + curso + ", cuatrimestre=" + cuatrimestre + ", id_profesor=" + id_profesor + ", id_grado=" + id_grado + " WHERE id=" + id;
             stmt.executeUpdate(query);
-            CargaDatos(m);
+          //  CargaDatos(m);
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
