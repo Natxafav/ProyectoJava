@@ -46,6 +46,7 @@ public class ModelPersonas {
     public void agregarPersona(String nif,String nombre, String apellido1, String apellido2, String ciudad, String direccion,String telefono,String fechaNac,String sexo, String tipo) {
         //Añadimos un nuevo registro a la base de datos
         try {
+            ConectionBD.openConn();
             stmt = ConectionBD.getStmt();
             String query = "INSERT INTO `persona`( `nif`, `nombre`, `apellido1`, `apellido2`, `ciudad`, `direccion`, `telefono`, `fecha_nacimiento`, `sexo`, `tipo`) VALUES ('"
                     + nif + "', '" + nombre + "', '" + apellido1 + "', '" + apellido2 + "', '" + ciudad + "', '"
@@ -62,8 +63,11 @@ public class ModelPersonas {
         try {
             DefaultTableModel m=new DefaultTableModel();
             stmt = ConectionBD.getStmt();
-            String query = "UPDATE asignatura SET nif='" + nif + "', nombre=" + nombre + ", apellido1='" + apellido1 + "', apellido2=" + apellido2 + ", ciudad=" + ciudad +
-                    ", direccion=" + direccion + ", telefono=" + telefono +", fecha_nacimiento=" + fechaNac +", sexo=" + sexo +", tipo=" + tipo + " WHERE id=" + id;
+
+            String query = "UPDATE `persona` SET nif='" + nif + "', nombre='" + nombre + "', apellido1='" +
+                    apellido1 + "', apellido2='" + apellido2 + "', ciudad='" + ciudad +
+                    "', direccion='" + direccion + "', telefono='" + telefono +"', fecha_nacimiento='" +
+                    fechaNac +"', sexo='" + sexo +"', tipo='" + tipo + "' WHERE id=" + id;
             stmt.executeUpdate(query);
             //  CargaDatos(m);
             stmt.close();
@@ -77,7 +81,7 @@ public class ModelPersonas {
 
             DefaultTableModel m = new DefaultTableModel();
             stmt = ConectionBD.getStmt();
-            String query = "DELETE FROM asignatura WHERE id=" + id;
+            String query = "DELETE FROM persona WHERE id=" + id;
             stmt.executeUpdate(query);
             stmt.close();
         } catch (SQLException e) {
