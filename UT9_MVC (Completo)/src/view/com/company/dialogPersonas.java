@@ -93,6 +93,7 @@ public class dialogPersonas extends JDialog {
     private void onOK() {
         ModelPersonas modelo=new ModelPersonas();
         nif= txtNif.getText();
+        System.out.println("Este es el nif"+nif);
         nombre= txtNombre.getText();
         apellido1= txtApellido1.getText();
         apellido2= txtApellido2.getText();
