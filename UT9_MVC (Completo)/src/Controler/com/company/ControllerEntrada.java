@@ -11,15 +11,18 @@ import java.awt.event.*;
 public class ControllerEntrada implements ActionListener,  WindowListener {
 
     private final ViewPanelEntrada frEntrada = new ViewPanelEntrada();
-    private final ViewPersonas frPersonas=new ViewPersonas();
+    private final ViewPersonas frPersonas;
     private final DefaultTableModel m = null;
     private final ModelAsignaturas modelAsignaturas;
+    private final ModelPersonas modelPersonas;
     private final ViewAsignaturas frAsignaturas;
 
     // Constructor lanza cada uno de los procedimientos de la aplicación.
-    public ControllerEntrada(ModelAsignaturas modelAsignaturas, ViewAsignaturas frAsignaturas) {
+    public ControllerEntrada(ModelAsignaturas modelAsignaturas, ViewAsignaturas frAsignaturas, ModelPersonas modelPersonas, ViewPersonas frPersonas) {
         this.modelAsignaturas=modelAsignaturas;
+        this.modelPersonas=modelPersonas;
         this.frAsignaturas=frAsignaturas;
+        this.frPersonas=frPersonas;
         iniciarVentana();
         iniciarEventos();
     }
@@ -48,9 +51,8 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
                 break;
 
             case "Personas":
-                frPersonas.setVisible(true);
-                ModelPersonas persona = new ModelPersonas();
-                frPersonas.getTable1().setModel(persona.CargaDatos(m));
+                ControllerPersonas controllerPersonas=new ControllerPersonas(modelPersonas,frPersonas);
+                frEntrada.dispose();
                 break;
         }
     }

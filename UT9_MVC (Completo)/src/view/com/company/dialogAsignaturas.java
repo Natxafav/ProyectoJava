@@ -9,20 +9,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class dialogAdd extends JDialog {
+public class dialogAsignaturas extends JDialog {
     private Statement stmt;
-    private JPanel contentPane, jPanelTexto;
+    private JPanel contentPane, jPanelTexto, jPanel;
     private JButton buttonOK, buttonCancel;
     private JTextField txtNombre, txtCreditos, txtCurso,txtCuatrimestre,txtIdProfesor,txtIdGrado;
     private JLabel lblAsignaturas,lblID_Grado,lblId_Profesor, lblCuatrimestre,lblCurso, lblTipo, lblCreditos, lblNombre;
     private JComboBox comboBox1;
     private String nombre, creditosSt, tipo, cursoSt, cuatrimestreSt, id_profesorSt, id_gradoSt;
     private int cuatrimestre,creditos,curso,id_profesor,id_grado;
-    private boolean isAdd=true;
+    private boolean isAdd=true, isDelete=false;
     private int id=-1;
-    public dialogAdd(boolean isAdd, int id) {
+    public dialogAsignaturas(boolean isAdd, boolean isDelete, int id) {
         this.id=id;
         this.isAdd=isAdd;
+        this.isDelete=isDelete;
         ArrayList<String> tiposAsignaturas = new ArrayList<>();
         try {
             ConectionBD.openConn();
@@ -32,7 +33,6 @@ public class dialogAdd extends JDialog {
             while (rs.next()) {
                 String tipo = rs.getString("tipo");
                 tiposAsignaturas.add(tipo);
-                System.out.println(tipo);
             }
             for (String tipo : tiposAsignaturas) {
                 comboBox1.addItem(tipo);
@@ -77,7 +77,6 @@ public class dialogAdd extends JDialog {
 
     private void onOK() {
         ModelAsignaturas modelo=new ModelAsignaturas();
-
         nombre=txtNombre.getText();
         creditosSt=txtCreditos.getText();
         tipo= (String) comboBox1.getSelectedItem();
@@ -93,9 +92,15 @@ public class dialogAdd extends JDialog {
         if(isAdd==true){
             modelo.agregarAsignatura(nombre,creditos,tipo,curso,cuatrimestre,id_profesor,id_grado);
 
-        } else if (isAdd==false) {
+        } else if (isAdd==false&&isDelete==false) {
+
+            setTitle("Modificar Registro");
             modelo.modificarAsignatura(id,nombre,creditos,tipo,curso,cuatrimestre,id_profesor,id_grado);
 
+        }else if(isAdd==false && isDelete==true){
+            System.out.println(id+" Esta es la id");
+            setTitle("Eliminar registro.");
+            modelo.eliminarAsignatura(id);
         }
         dispose();
     }
@@ -216,9 +221,15 @@ public class dialogAdd extends JDialog {
     public void setLblTipo(JLabel lblTipo) {
         this.lblTipo = lblTipo;
     }
+    public JPanel getjPanelTexto() {
+        return jPanelTexto;
+    }
 
+    public void setjPanelTexto(JPanel jPanelTexto) {
+        this.jPanelTexto = jPanelTexto;
+    }
     public static void main(String[] args) {
-        dialogAdd dialogo = new dialogAdd(true,-1);
+        dialogAsignaturas dialogo = new dialogAsignaturas(true,false,-1);
         dialogo.pack();
         dialogo.setVisible(true);
         System.exit(0);

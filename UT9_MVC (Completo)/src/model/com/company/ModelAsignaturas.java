@@ -1,7 +1,6 @@
 package model.com.company;
 
 import Connecion.ConectionBD;
-import view.com.company.ViewAsignaturas;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,8 +50,7 @@ public class ModelAsignaturas {
     public void modificarAsignatura(int id, String nombre, int creditos, String tipo, int curso, int cuatrimestre, int id_profesor, int id_grado) {
        //Modificamos registros de la base de datos
         try {
-            ModelAsignaturas modelAsignaturas = new ModelAsignaturas();
-            ViewAsignaturas frAsignaturas = new ViewAsignaturas();
+
             DefaultTableModel m=new DefaultTableModel();
             stmt = ConectionBD.getStmt();
             String query = "UPDATE asignatura SET nombre='" + nombre + "', creditos=" + creditos + ", tipo='" + tipo + "', curso=" + curso + ", cuatrimestre=" + cuatrimestre + ", id_profesor=" + id_profesor + ", id_grado=" + id_grado + " WHERE id=" + id;
@@ -63,19 +61,19 @@ public class ModelAsignaturas {
             e.printStackTrace();
         }
     }
-/*
+
     public void eliminarAsignatura(int id) {
         try {
-            ModelAsignaturas modelAsignaturas = new ModelAsignaturas();
-            ViewAsignaturas vistaAsignaturas = new ViewAsignaturas();
-            DefaultTableModel m=new DefaultTableModel();
+
+            DefaultTableModel m = new DefaultTableModel();
             stmt = ConectionBD.getStmt();
             String query = "DELETE FROM asignatura WHERE id=" + id;
             stmt.executeUpdate(query);
-            CargaDatos(m);
             stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }*/
+
+    }
+
 }

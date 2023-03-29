@@ -9,6 +9,16 @@ public class ViewPersonas extends JFrame {
     private JButton btnModify;
     private JButton btnEliminar;
     private JTable table1;
+    private JButton btnVolver;
+
+    public JButton getBtnVolver() {
+        return btnVolver;
+    }
+
+    public void setBtnVolver(JButton btnVolver) {
+        this.btnVolver = btnVolver;
+    }
+
     public ViewPersonas() {
         super("PERSONAS");
         setContentPane(jPanePersonas);
