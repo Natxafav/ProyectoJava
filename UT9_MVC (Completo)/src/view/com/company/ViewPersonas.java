@@ -1,6 +1,7 @@
 package view.com.company;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class ViewPersonas extends JFrame {
     private JPanel jPanePersonas;
@@ -25,6 +26,10 @@ public class ViewPersonas extends JFrame {
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
         int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
         setSize(ancho, alto);
+    }
+    public void setTableModel(DefaultTableModel model) {
+        table1.setModel(model);
+        table1.revalidate();
     }
 
     public JPanel getjPanePersonas() {

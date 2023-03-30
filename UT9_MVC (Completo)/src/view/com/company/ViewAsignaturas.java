@@ -2,6 +2,7 @@ package view.com.company;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 public class ViewAsignaturas extends JFrame{
     private JPanel jPanelAsignaturas;
@@ -19,12 +20,14 @@ public class ViewAsignaturas extends JFrame{
         int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
         setSize(ancho, alto);
 
-
     }
 
-    public void setTableModel(DefaultTableModel model) {
-        table1.setModel(model);
-    }
+
+   public void setTableModel(DefaultTableModel model) {
+       table1.setModel(model);
+       table1.revalidate();
+   }
+
     public JTable getTable1() {
         return table1;
     }
@@ -43,29 +46,22 @@ public class ViewAsignaturas extends JFrame{
        return btnAdd;
     }
 
-   // public void setBtnAdd(JButton btnAdd) {        this.btnAdd = btnAdd;    }
-    public JButton getBtnVolver() {
+      public JButton getBtnVolver() {
        return btnVolver;
     }
 
-   // public void setBtnVolver(JButton btnVolver) {      this.btnVolver = btnVolver;    }
-    public JButton getBtnModify() {
+      public JButton getBtnModify() {
        return btnModify;
     }
-
-   // public void setBtnModify(JButton btnModify) {   this.btnModify = btnModify; }
 
     public JButton getBtnEliminar() {
 
         return btnEliminar;
     }
 
-   // public void setBtnEliminar(JButton btnEliminar) {    this.btnEliminar = btnEliminar; }
-
     public JButton getBtnPersonas() {
      return btnPersonas;
     }
 
-   // public void setBtnPersonas(JButton btnPersonas) {     this.btnPersonas = btnPersonas;    }
 
 }

@@ -5,7 +5,6 @@ import model.com.company.ModelAsignaturas;
 import model.com.company.ModelPersonas;
 import view.com.company.ViewAsignaturas;
 import view.com.company.ViewPersonas;
-import view.com.company.dialogAsignaturas;
 import view.com.company.dialogPersonas;
 
 import javax.swing.*;
@@ -21,6 +20,7 @@ public class ControllerPersonas implements ActionListener, WindowListener, Mouse
     private dialogPersonas dialogoPersonas;
     private DefaultTableModel m = null;
     private boolean isDelete;
+    private boolean buscar=false;
 
     public ControllerPersonas(ModelPersonas modelPersonasP, ViewPersonas frPersonasP){
         this.modelPersonasP=modelPersonasP;
@@ -132,7 +132,7 @@ public class ControllerPersonas implements ActionListener, WindowListener, Mouse
             prepararBaseDatosPersonas();
         } else if (e.getSource() == frPersonasP.getBtnAsignaturas()) {
             // código para el botón Personas
-            ControllerAsignaturas controllerAsignaturas=new ControllerAsignaturas(modelAsigP,frAsignaturasP);
+            ControllerAsignaturas controllerAsignaturas=new ControllerAsignaturas(false,modelAsigP,frAsignaturasP,"","");
             frPersonasP.dispose();
 
         } else if (e.getSource() == frPersonasP.getBtnVolver()) {

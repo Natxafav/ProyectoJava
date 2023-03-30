@@ -7,15 +7,18 @@ import view.com.company.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class ControllerEntrada implements ActionListener,  WindowListener {
 
-    private final ViewPanelEntrada frEntrada = new ViewPanelEntrada();
-    private final ViewPersonas frPersonas;
-    private final DefaultTableModel m = null;
-    private final ModelAsignaturas modelAsignaturas;
-    private final ModelPersonas modelPersonas;
-    private final ViewAsignaturas frAsignaturas;
+    private  ViewPanelEntrada frEntrada = new ViewPanelEntrada();
+    private  ViewPersonas frPersonas=new ViewPersonas();
+    private DefaultTableModel m = null;
+    private ModelAsignaturas modelAsignaturas=new ModelAsignaturas();
+    private ModelPersonas modelPersonas=new ModelPersonas();
+    private ViewAsignaturas frAsignaturas=new ViewAsignaturas();
+    private ControllerAsignaturas controllerAsignaturas;
+
 
     // Constructor lanza cada uno de los procedimientos de la aplicación.
     public ControllerEntrada(ModelAsignaturas modelAsignaturas, ViewAsignaturas frAsignaturas, ModelPersonas modelPersonas, ViewPersonas frPersonas) {
@@ -23,6 +26,7 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
         this.modelPersonas=modelPersonas;
         this.frAsignaturas=frAsignaturas;
         this.frPersonas=frPersonas;
+
         iniciarVentana();
         iniciarEventos();
     }
@@ -33,11 +37,35 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
         frEntrada.getBtnSalir().addActionListener(this::actionPerformed);
         frEntrada.getAsignaturasButton().addActionListener(this::actionPerformed);
         frEntrada.getPersonasButton().addActionListener(this::actionPerformed);
+        frEntrada.getBtnBuscar().addActionListener(this::actionPerformed);
+        frEntrada.getComboFiltrar().addActionListener(this::actionPerformed);
+        frEntrada.getComboDataBase().addActionListener(this::actionPerformed);
+        frEntrada.getTxtBusqueda().addActionListener(this::actionPerformed);
         frEntrada.addWindowListener(this);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         //Según el botón pulsado, realiza una acción.
+        try {
+        if (e.getSource() == frEntrada.getBtnBuscar()) {
+            String nombreDataBase=(String) frEntrada.getComboDataBase().getSelectedItem();
+            String columnaFiltrar=(String) frEntrada.getComboFiltrar().getSelectedItem();
+            String datosBuscar= frEntrada.getTxtBusqueda().getText();
+            m=new DefaultTableModel();
+            if (nombreDataBase.equals("Asignaturas")){
+                System.out.println("entrada col "+ columnaFiltrar);
+                System.out.println("entrada dato " + datosBuscar);
+                controllerAsignaturas=new ControllerAsignaturas(true,modelAsignaturas,frAsignaturas,columnaFiltrar, datosBuscar);
+                frAsignaturas.getTable1().setModel(modelAsignaturas.CargaDatos(true,m,columnaFiltrar,datosBuscar));
+
+                frEntrada.dispose();
+            }else if (nombreDataBase.equals("Personas")){
+                m=modelPersonas.buscarPersonas(columnaFiltrar,datosBuscar);
+                frPersonas.setVisible(true);
+                frPersonas.setTableModel(m);
+                frEntrada.dispose();
+            }
+        }
         String entrada = e.getActionCommand();
         switch (entrada) {
             case "Salir":
@@ -46,7 +74,7 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
                 break;
 
             case "Asignaturas":
-                ControllerAsignaturas contrAsig = new ControllerAsignaturas(modelAsignaturas, frAsignaturas);
+                controllerAsignaturas= new ControllerAsignaturas(false,modelAsignaturas, frAsignaturas,"","");
                 frEntrada.dispose();
                 break;
 
@@ -54,8 +82,14 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
                 ControllerPersonas controllerPersonas=new ControllerPersonas(modelPersonas,frPersonas);
                 frEntrada.dispose();
                 break;
+
+        }
+    } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
+
+
     @Override
     public void windowOpened(WindowEvent e) {
     }
