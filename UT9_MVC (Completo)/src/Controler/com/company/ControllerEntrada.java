@@ -7,17 +7,17 @@ import view.com.company.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
-import java.sql.SQLException;
 
 public class ControllerEntrada implements ActionListener,  WindowListener {
 
-    private  ViewPanelEntrada frEntrada = new ViewPanelEntrada();
+    private final ViewPanelEntrada frEntrada = new ViewPanelEntrada();
     private  ViewPersonas frPersonas=new ViewPersonas();
     private DefaultTableModel m = null;
     private ModelAsignaturas modelAsignaturas=new ModelAsignaturas();
     private ModelPersonas modelPersonas=new ModelPersonas();
     private ViewAsignaturas frAsignaturas=new ViewAsignaturas();
     private ControllerAsignaturas controllerAsignaturas;
+    private ControllerPersonas controllerPersonas;
 
 
     // Constructor lanza cada uno de los procedimientos de la aplicación.
@@ -52,18 +52,16 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
             String columnaFiltrar=(String) frEntrada.getComboFiltrar().getSelectedItem();
             String datosBuscar= frEntrada.getTxtBusqueda().getText();
             m=new DefaultTableModel();
+            assert nombreDataBase != null;
             if (nombreDataBase.equals("Asignaturas")){
-                System.out.println("entrada col "+ columnaFiltrar);
-                System.out.println("entrada dato " + datosBuscar);
                 controllerAsignaturas=new ControllerAsignaturas(true,modelAsignaturas,frAsignaturas,columnaFiltrar, datosBuscar);
+                frEntrada.dispose();
                 frAsignaturas.getTable1().setModel(modelAsignaturas.CargaDatos(true,m,columnaFiltrar,datosBuscar));
 
-                frEntrada.dispose();
             }else if (nombreDataBase.equals("Personas")){
-                m=modelPersonas.buscarPersonas(columnaFiltrar,datosBuscar);
-                frPersonas.setVisible(true);
-                frPersonas.setTableModel(m);
+                controllerPersonas=new ControllerPersonas(true,modelPersonas,frPersonas,columnaFiltrar, datosBuscar);
                 frEntrada.dispose();
+                frPersonas.getTable1().setModel(modelPersonas.CargaDatos(true,m,columnaFiltrar,datosBuscar));
             }
         }
         String entrada = e.getActionCommand();
@@ -79,7 +77,7 @@ public class ControllerEntrada implements ActionListener,  WindowListener {
                 break;
 
             case "Personas":
-                ControllerPersonas controllerPersonas=new ControllerPersonas(modelPersonas,frPersonas);
+                ControllerPersonas controllerPersonas=new ControllerPersonas(false,modelPersonas,frPersonas,"","");
                 frEntrada.dispose();
                 break;
 

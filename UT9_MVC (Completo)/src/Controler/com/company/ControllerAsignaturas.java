@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.SQLException;
+
 
 public class ControllerAsignaturas implements ActionListener, WindowListener, MouseListener {
     private ViewAsignaturas frAsignaturas;
@@ -86,7 +86,7 @@ public class ControllerAsignaturas implements ActionListener, WindowListener, Mo
             prepararBaseDatosAsignaturas(false,"","");
         } else if (e.getSource() == frAsignaturas.getBtnPersonas()) {
             // código para el botón Personas
-            ControllerPersonas controllerPersonas=new ControllerPersonas(modelPersonas, frPersonas);
+            ControllerPersonas controllerPersonas=new ControllerPersonas(false,modelPersonas, frPersonas,"","");
             frAsignaturas.dispose();
         } else if (e.getSource() == frAsignaturas.getBtnVolver()) {
             // Código para volver a la vista anterior

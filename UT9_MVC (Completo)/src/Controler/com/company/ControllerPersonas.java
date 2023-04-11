@@ -20,18 +20,19 @@ public class ControllerPersonas implements ActionListener, WindowListener, Mouse
     private dialogPersonas dialogoPersonas;
     private DefaultTableModel m = null;
     private boolean isDelete;
-    private boolean buscar=false;
+    private boolean isBuscar;
 
-    public ControllerPersonas(ModelPersonas modelPersonasP, ViewPersonas frPersonasP){
+    public ControllerPersonas(boolean isBuscar,ModelPersonas modelPersonasP, ViewPersonas frPersonasP, String nombreColumna, String datoBuscar){
         this.modelPersonasP=modelPersonasP;
         this.frPersonasP=frPersonasP;
+        this.isBuscar=isBuscar;
         try{
             iniciarVentanaPersonas();
-            prepararBaseDatosPersonas();
+            prepararBaseDatosPersonas(isBuscar,nombreColumna,datoBuscar);
             iniciarEventosPersonas();
         }catch(Exception e){
             e.printStackTrace();
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+" Controller Personas constructor");
         }
 
     }
@@ -40,8 +41,14 @@ public class ControllerPersonas implements ActionListener, WindowListener, Mouse
         frPersonasP.setVisible(true);
 
     }
-    public void iniciarEventosPersonas() {
 
+    public void prepararBaseDatosPersonas(boolean isBuscar, String nombreColumna, String datoBuscar) {
+        this.isBuscar=isBuscar;
+        m=new DefaultTableModel();
+        modelPersonasP=new ModelPersonas();
+        frPersonasP.getTable1().setModel(modelPersonasP.CargaDatos(isBuscar,m,nombreColumna,datoBuscar));
+    }
+    public void iniciarEventosPersonas() {
         frPersonasP.getBtnAdd().addActionListener(this::actionPerformed);
         frPersonasP.getBtnModify().addActionListener(this::actionPerformed);
         frPersonasP.getBtnEliminar().addActionListener(this::actionPerformed);
@@ -52,12 +59,44 @@ public class ControllerPersonas implements ActionListener, WindowListener, Mouse
         frPersonasP.addWindowListener(this);
 
     }
-    public void prepararBaseDatosPersonas() {
-        m=new DefaultTableModel();
-        modelPersonasP=new ModelPersonas();
-        frPersonasP.getTable1().setModel(modelPersonasP.CargaDatos(m));
-    }
+    public void actionPerformed(ActionEvent e) {
+       try {
+           if (e.getSource() == frPersonasP.getBtnAdd()) {
+               //Al pulsar Añadir  abrimos el dialogo, cuando se cierra el mismo,
+               //se actualizan los datos de la tabla.
+               dialogoPersonas = new dialogPersonas(true, false, -1);
+               System.out.println("Se crea el dialogo personas");
+               int ancho = Toolkit.getDefaultToolkit().getScreenSize().width;
+               int alto = Toolkit.getDefaultToolkit().getScreenSize().height;
+               dialogoPersonas.setSize(ancho / 2, alto / 2);
+               dialogoPersonas.setLocation(ancho / 4, alto / 4);
+               dialogoPersonas.setTitle("Añadir nuevo registro.");
+               dialogoPersonas.setVisible(true);
+               prepararBaseDatosPersonas(false, "", "");
+           } else if (e.getSource() == frPersonasP.getBtnModify()) {
+               mostrarDatosDialogoPersona(false);
+               prepararBaseDatosPersonas(false, "", "");
 
+           } else if (e.getSource() == frPersonasP.getBtnEliminar()) {
+               // código para el botón Eliminar
+               mostrarDatosDialogoPersona(true);
+               prepararBaseDatosPersonas(false, "", "");
+           } else if (e.getSource() == frPersonasP.getBtnAsignaturas()) {
+               // código para el botón Personas
+               ControllerAsignaturas controllerAsignaturas = new ControllerAsignaturas(false, modelAsigP, frAsignaturasP, "", "");
+               frPersonasP.dispose();
+
+           } else if (e.getSource() == frPersonasP.getBtnVolver()) {
+               // código para el botón Volver, retorna a la vista de entrada.
+               ControllerEntrada controlador = new ControllerEntrada(modelAsigP, frAsignaturasP, modelPersonasP, frPersonasP);
+               frPersonasP.dispose();
+           }
+       } catch (HeadlessException ex) {
+           System.out.println("Dentro del try act controller presonas"+e);
+           throw new RuntimeException(ex);
+
+       }
+    }
     public void mostrarDatosDialogoPersona(boolean isDelete) {
         this.isDelete=isDelete;
         int filaSeleccionada = frPersonasP.getTable1().getSelectedRow();
@@ -109,38 +148,7 @@ public class ControllerPersonas implements ActionListener, WindowListener, Mouse
         }
     }
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == frPersonasP.getBtnAdd()) {
-            //Al pulsar Añadir  abrimos el dialogo, cuando se cierra el mismo,
-            //se actualizan los datos de la tabla.
-            dialogoPersonas=new dialogPersonas(true,false,-1);
-            System.out.println("Se crea el dialogo personas");
-            int ancho = Toolkit.getDefaultToolkit().getScreenSize().width;
-            int alto = Toolkit.getDefaultToolkit().getScreenSize().height;
-            dialogoPersonas.setSize(ancho/2, alto/2);
-            dialogoPersonas.setLocation(ancho/4, alto/4);
-            dialogoPersonas.setTitle("Añadir nuevo registro.");
-            dialogoPersonas.setVisible(true);
-            prepararBaseDatosPersonas();
-        } else if (e.getSource() == frPersonasP.getBtnModify()) {
-            mostrarDatosDialogoPersona(false);
-            prepararBaseDatosPersonas();
 
-        } else if (e.getSource() == frPersonasP.getBtnEliminar()) {
-            // código para el botón Eliminar
-            mostrarDatosDialogoPersona(true);
-            prepararBaseDatosPersonas();
-        } else if (e.getSource() == frPersonasP.getBtnAsignaturas()) {
-            // código para el botón Personas
-            ControllerAsignaturas controllerAsignaturas=new ControllerAsignaturas(false,modelAsigP,frAsignaturasP,"","");
-            frPersonasP.dispose();
-
-        } else if (e.getSource() == frPersonasP.getBtnVolver()) {
-            // código para el botón Volver, retorna a la vista de entrada.
-            ControllerEntrada controlador=new ControllerEntrada(modelAsigP,frAsignaturasP,modelPersonasP,frPersonasP);
-            frPersonasP.dispose();
-        }
-    }
     @Override
     public void windowOpened(WindowEvent e) {
 
